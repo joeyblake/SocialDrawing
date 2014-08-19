@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <link rel='stylesheet' href='/components/bootstrap/dist/css/bootstrap.min.css' />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/flat-ui.css" rel="stylesheet">
+    <link rel='stylesheet' href='/css/styles.css' />
+  </head>
+  <body >
+    
+    <div class="container" style="padding-bottom:130px;">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="">
+
+            <h2 style="text-align:center;">Winner, winner, <br>chicken dinner!</h2>
+            <h3><a href="<%= winner.url %>" target="_blank"><img src="<%= winner.large %>" alt="" style="max-width:73px;" class="img-circle"><br><%= winner.name %></a></h3>
+            <div class="count_wrapper" style="width:auto; text-align:center;">
+              <% if (locals.tweet) { %>
+                <a href="<%= tweet %>" target="_blank" class="">Twitter: <%= twitter %></a>
+              <% } %>
+              <span>Total: <%= total %></span>
+              <% if (locals.fb_post) { %>
+                <a href="<%= fb_post %>" target="_blank" class="">Facebook: <%= facebook %></a>
+              <% } %>
+            </div>
+            <div id="email_block" style="text-align:center;">
+              <form action="#" class="form-inline" style="text-align:center;">
+                <div class="form-group">
+                  <input type="email" style="text-align:center;" class="form-control input-hg" placeholder="enter your email" name="email_address" data-key="<%= key %>" id="">
+                </div> 
+                <button data-action="emailme" class="btn btn-hg btn-primary btn-embossed"><span class="fui-mail"></span> Email me the results now!</button>
+                  <br>So I don't forget!
+                
+              </form>
+            </div>
+            <div class="well">
+              <h4 style="text-align:center;">Giving away an amazon giftcard?</h4>
+              <p>If you appreciate this service, buy your giftcard by clicking this link. It won't cost you any more money, and it will help support this app! You rock!</p>
+              <iframe src="http://rcm-na.amazon-adsystem.com/e/cm?t=frespenc0c-20&o=1&p=13&l=ur1&category=gift_certificates&banner=180TQ0K9X17QCCZQS4R2&f=ifr" width="468" height="60" scrolling="no" border="0" marginwidth="0" style="border:none; margin:0px auto 12px; display:block;" frameborder="0"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <a href="#" data-action="show_participants"><h5 style="text-align:center"><span class="fui-user"></span>  Show All <%= participants.length %> Participants</h5></a>
+          <ul id="participants" class="list-group " style="display:none;">
+            <% for(var i=0; i<participants.length; i++) { %>
+              <a href="<%= participants[i].url %>" target="_blank" class="list-group-item <%= (participants[i].winner) ? 'active' : null %>" style="overflow:hidden; line-height:48px;" id="<%= participants[i].id %>">
+                <img src="<%= participants[i].pic %>" alt="" style="margin-right:12px;" class="img-circle pull-left">
+                  <%= participants[i].name %>
+              </a>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-menu" style="margin-top:-130px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="bottom-icons">
+              <li>&copy;2013 <a href="http://codenimbus.com">http://codenimbus.com</a> - Joey Blake</li>
+              <li><a href="http://twitter.com/joeyblake" class="fui-twitter"></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    $(function(){
+
+      $('[data-action="show_participants"]').click(function(){
+        $('#participants').show('fast');
+        return false;
+      });
+
+      var $addy = $('[name="email_address"]');
+      $('[data-action="emailme"]').click( function() {
+        $('#email_block').slideUp('fast');
+        $.post('/email', { 'email_address': $addy.val(), 'key': $addy.data('key') }, function(res) {
+          var message = "<div class=\"alert alert-info\">" +
+            "<p><b>Sweet!</b> Hope this was helpful! <br> An email from \"socialdrawing@codenimbus.com\" has been sent to: "+res.sent_to+" </p>" +
+          "</div>";
+          $('#email_block').html(message).slideDown('fast');
+        });
+        return false;
+      });
+    });
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-26207513-2', 'codenimbus.com');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>

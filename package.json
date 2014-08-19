@@ -1,0 +1,22 @@
+{
+  "name": "SocialDrawing",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "mongoose": "*",
+    "passport": "*",
+    "passport-twitter":"*",
+    "passport-facebook":"*",
+    "express": "3.4.7",
+    "ejs": "*",
+    "async": "*",
+    "mandrill-api": "*",
+    "MD5": "*",
+    "scraper": "*",
+    "request": "*",
+    "underscore": "*"
+  }
+}
